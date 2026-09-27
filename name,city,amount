@@ -1,0 +1,41 @@
+import java.util.*;
+class Main
+{
+    public static void main(String[] args)
+    {
+       Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLine()) return;
+         String input = sc.nextLine();
+
+        Map<String,Integer> m=new LinkedHashMap<>();
+        input=input.substring(2,input.length()-2);
+        String[] records=input.split("\\],\\s*\\[");
+        for(String record:records)
+            {
+                record=record.replace("\"","");
+                String[] parts=record.split(","); 
+                String city=parts[0].trim();
+                int amount=0;
+                if(parts.length>=3 && !parts[2].trim().equals("None"))
+                {
+                    amount=Integer.parseInt(parts[2].trim());
+                }
+                m.put(city,m.getOrDefault(city,0)+amount);
+            }
+
+        List<Map.Entry<String,Integer>> n=new ArrayList<>(m.entrySet());
+            n.sort((a,b)->b.getValue()-a.getValue());
+
+        System.out.print("{");
+        for(int i=0;i<n.size();i++)
+            {
+                System.out.print(n.get(i).getKey() +  "=" + n.get(i).getValue());
+                if(i<n.size()-1)
+                {
+                    System.out.print(",");
+                }
+            }
+        System.out.print("}");
+    }
+        
+}
